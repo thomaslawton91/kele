@@ -14,7 +14,9 @@ class Kele
   def get_me
     response = self.class.get(bloc_api("users/me"), headers: {"authorization" => @auth_token })
 
-    JSON.parse(response.body)
+    gotten = JSON.parse(response.body)
+    @user_data = JSON.pretty_unparse(gotten)
+    @user_data
   end
 
   def bloc_api(endpoint)
