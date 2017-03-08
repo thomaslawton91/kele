@@ -1,12 +1,15 @@
 require 'kele/roadmap.rb'
+require 'kele/messages.rb'
 require 'httparty'
 require 'json'
 
 class Kele
   include Roadmap
+  include Messages
   include HTTParty
   include JSON
   def initialize(email, password)
+    @email = email
     response = self.class.post(bloc_api("sessions"), body: { "email": email, "password": password })
 
     raise Error.new("Incorrect email or password") if response["auth_token"] == nil
