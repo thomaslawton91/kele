@@ -1,13 +1,16 @@
 require 'kele/roadmap.rb'
 require 'kele/messages.rb'
+require 'kele/submissions.rb'
 require 'httparty'
 require 'json'
 
 class Kele
   include Roadmap
   include Messages
+  include Submissions
   include HTTParty
   include JSON
+
   def initialize(email, password)
     @email = email
     response = self.class.post(bloc_api("sessions"), body: { "email": email, "password": password })
