@@ -1,7 +1,9 @@
+require 'kele/roadmap.rb'
 require 'httparty'
 require 'json'
 
 class Kele
+  include Roadmap
   include HTTParty
   include JSON
   def initialize(email, password)
@@ -14,15 +16,15 @@ class Kele
   def get_me
     response = self.class.get(bloc_api("users/me"), headers: {"authorization" => @auth_token })
 
-    gotten = JSON.parse(response.body)
-    @user_data = JSON.pretty_unparse(gotten)
+    @user_data = JSON.parse(response.body)
     @user_data
   end
 
   def get_mentor_availability(mentor_id)
     response = self.class.get(bloc_api("#{mentor_id}/student_availability"), headers: {"authorization" => @auth_token })
 
-    JSON.parse(response.body)
+    @mentor_availability = JSON.parse(response.body)
+    @mentor_availability
   end
 
   def bloc_api(endpoint)
